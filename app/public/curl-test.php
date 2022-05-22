@@ -11,4 +11,8 @@ curl_setopt_array($ch, [
 
 $response = curl_exec($ch);
 
-echo $response . "\n";
+$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+echo $response . "\n\n\n\n";
+
+echo $status_code . "\n";
