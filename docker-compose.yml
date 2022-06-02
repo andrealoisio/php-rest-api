@@ -15,7 +15,7 @@ services:
         volumes:
             - ./app:/app
     mysql:
-        image: mariadb:latest
+        image: mysql:latest
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_USER=api
