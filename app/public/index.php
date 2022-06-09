@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 // ini_set("display_errors", "On");
 
-require __DIR__ . "/vendor/autoload.php";
+require dirname(__DIR__) . "/vendor/autoload.php";
 
 set_exception_handler("ErrorHandler::handleException");
 
