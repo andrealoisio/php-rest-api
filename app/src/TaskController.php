@@ -25,10 +25,15 @@ class TaskController
             }
         } else {
             
+            $task = $this->gateway->get($id);
+            if (!$task) {
+                $this->respondNotFound($id);
+            }
+
             switch ($method) {
                 
                 case "GET":
-                    echo "show $id";
+                    echo json_encode($this->gateway->get($id));
                     break;
                 
                 case "PATCH":
@@ -45,10 +50,14 @@ class TaskController
         }
     }
     
-    private function respondMethodNotAllowed(string $allowed_methods): void
-    {
+    private function respondMethodNotAllowed(string $allowed_methods): void {
         http_response_code(405);
         header("Allow: $allowed_methods");
+    }
+
+    private function respondNotFound(string $id): void {
+        http_response_code(404);
+        echo json_encode(["message" => "Task with id $id not found"]);
     }
 }
 
