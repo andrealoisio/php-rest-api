@@ -13,16 +13,11 @@ class TaskGateway {
                 ORDER BY name";
                 
         $stmt = $this->conn->query($sql);
+
+        return array_map(function($row){
+            $row["is_completed"] = (bool) $row["is_completed"];
+            return $row;
+        }, $stmt->fetchAll(PDO::FETCH_ASSOC));
         
-        $data = [];
-        
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            
-            $row['is_completed'] = (bool) $row['is_completed'];
-            
-            $data[] = $row;
-        }
-        
-        return $data;
     }
 }
