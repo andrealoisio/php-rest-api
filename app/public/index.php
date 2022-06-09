@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-// ini_set("display_errors", "On");
-
 require dirname(__DIR__) . "/vendor/autoload.php";
 
 set_exception_handler("ErrorHandler::handleException");
@@ -27,10 +25,10 @@ if ($resource != "tasks") {
 
 header("Content-type: application/json; charset=UTF-8");
 
-
 $database = new Database($_ENV["DB_HOST"], $_ENV["DB_NAME"], $_ENV["DB_USER"], $_ENV["DB_PASS"]);
-$database->getConnection();
 
-$controller = new TaskController;
+$task_gateway = new TaskGateway($database);
+
+$controller = new TaskController($task_gateway);
 
 $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);

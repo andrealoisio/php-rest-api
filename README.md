@@ -12,7 +12,6 @@ docker exec -it -w "/app" php composer update
 docker exec -it -w "/app" php composer require catfan/medoo
 ```
 
-
 ### Conecting and creating database
 ```
 docker exec -it mysql bash
@@ -31,3 +30,10 @@ describe task;
 show indexes from task;
 ```
 
+### Populating the database
+```
+INSERT INTO task (name, priority, is_completed) VALUES ("Todo 1", 5, false);
+INSERT INTO task (name, priority, is_completed) VALUES ("Todo 2", 5, false);
+INSERT INTO task (name, priority, is_completed) VALUES ("Todo 3", 4, true);
+INSERT INTO task (name, priority, is_completed) VALUES ("Todo 4", 1, false);
+```
