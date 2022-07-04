@@ -39,3 +39,13 @@ INSERT INTO task (name, priority, is_completed) VALUES ("Todo 4", 1, false);
 ```
 
 ### Acessing the endpoints
+```
+http://localhost/api/tasks
+http://localhost/api/tasks/1
+http://localhost/api/tasks/99
+
+Using http pie
+http post http://localhost/api/tasks name="A new task" priority=3 --form
+http pie transforms in json
+http post http://localhost/api/tasks name="A new task" priority=3 --form
+```
