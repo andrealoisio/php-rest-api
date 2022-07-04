@@ -20,7 +20,14 @@ class TaskController
                 // print_r($_POST);
                 // echo "create";
                 $data = (array) json_decode(file_get_contents("php://input"), true);
-                // var_dump($data);
+
+                $errors = $this->getValidationErrors($data);
+
+                if (!empty($errors)) {
+                    $this->respondUnprocessableEntity($errors);
+                    return;
+                }
+
                 $new_task_id = $this->gateway->create($data);
                 $this->respondCreated($new_task_id);
             } else {
@@ -42,7 +49,16 @@ class TaskController
                     break;
                 
                 case "PATCH":
-                    echo "update $id";
+                    $data = (array) json_decode(file_get_contents("php://input"), true);
+
+                    $errors = $this->getValidationErrors($data, false);
+    
+                    if (!empty($errors)) {
+                        $this->respondUnprocessableEntity($errors);
+                        return;
+                    }
+                    // echo "update $id";
+                    $this->gateway->update($id, $data);
                     break;
                     
                 case "DELETE":
@@ -68,6 +84,24 @@ class TaskController
     private function respondCreated(string $id): void {
         http_response_code(201);
         echo json_encode(["message" => "Task created", "id" => $id]);
+    }
+
+    private function respondUnprocessableEntity(array $errors): void {
+        http_response_code(422);
+        echo json_encode(["errors" => $errors]);
+    }
+
+    private function getValidationErrors(array $data, bool $is_new = true) {
+        $errors = [];
+        if ($is_new && empty($data["name"])) {
+            $errors[] = "name is required";
+        }
+        if (!empty($data["priority"])) {
+            if (filter_var($data["priority"], FILTER_VALIDATE_INT) === false) {
+                $errors[] = "priority must be an integer";
+            }
+        }
+        return $errors;
     }
 }
 
