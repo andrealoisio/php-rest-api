@@ -25,6 +25,7 @@ services:
             - MYSQL_DATABASE=api
         volumes:
             - mysqldata:/var/lib/mysql
+            - ./db-scripts:/docker-entrypoint-initdb.d
         ports:
             - "3306:3306"
         restart: always

@@ -28,12 +28,13 @@ class TaskController
             $task = $this->gateway->get($id);
             if (!$task) {
                 $this->respondNotFound($id);
+                return;
             }
 
             switch ($method) {
                 
                 case "GET":
-                    echo json_encode($this->gateway->get($id));
+                    echo json_encode($task);
                     break;
                 
                 case "PATCH":
